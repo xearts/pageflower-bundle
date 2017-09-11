@@ -15,6 +15,8 @@ namespace PHPMentors\PageflowerBundle\Form\Extension\Conversation\Type;
 use PHPMentors\PageflowerBundle\Conversation\ConversationContext;
 use PHPMentors\PageflowerBundle\Conversation\ConversationContextAwareInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -54,7 +56,7 @@ class FormTypeConversationExtension extends AbstractTypeExtension implements Con
         if ($conversation !== null && !$view->parent && $options['compound']) {
             $conversationForm = $conversationForm->getConfig()->getAttribute('conversation_factory')->createNamed(
                 $this->conversationContext->getConversationParameterName(),
-                'hidden',
+                HiddenType::class,
                 $conversation->getConversationId(),
                 array('mapped' => false)
             );
@@ -70,6 +72,6 @@ class FormTypeConversationExtension extends AbstractTypeExtension implements Con
      */
     public function getExtendedType()
     {
-        return 'form';
+        return FormType::class;
     }
 }

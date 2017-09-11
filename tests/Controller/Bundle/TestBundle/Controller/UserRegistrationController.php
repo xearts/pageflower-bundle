@@ -25,6 +25,7 @@ use PHPMentors\PageflowerBundle\Controller\Bundle\TestBundle\Form\Type\UserRegis
 use PHPMentors\PageflowerBundle\Controller\ConversationalControllerInterface;
 use PHPMentors\PageflowerBundle\Conversation\ConversationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,7 +99,7 @@ class UserRegistrationController extends Controller implements ConversationalCon
             $this->conversationContext->getConversation()->transition('input');
         }
 
-        $form = $this->createForm(new UserRegistrationType(), $this->user, array(
+        $form = $this->createForm(UserRegistrationType::class, $this->user, array(
             'action' => $this->generateUrl('test_user_registration_input_post'),
             'method' => 'POST',
         ));
@@ -115,7 +116,7 @@ class UserRegistrationController extends Controller implements ConversationalCon
      */
     public function inputPostAction(Request $request)
     {
-        $form = $this->createForm(new UserRegistrationType(), $this->user, array(
+        $form = $this->createForm(UserRegistrationType::class, $this->user, array(
             'action' => $this->generateUrl('test_user_registration_input_post'),
             'method' => 'POST',
         ));
@@ -140,8 +141,8 @@ class UserRegistrationController extends Controller implements ConversationalCon
     public function confirmationGetAction(Request $request)
     {
         $form = $this->createFormBuilder(null, array('action' => $this->generateUrl('test_user_registration_confirmation_post'), 'method' => 'POST'))
-            ->add('next', 'submit')
-            ->add('prev', 'submit')
+            ->add('next', SubmitType::class)
+            ->add('prev', SubmitType::class)
             ->getForm();
 
         return $this->render(self::VIEW_CONFIRMATION, array(
@@ -157,8 +158,8 @@ class UserRegistrationController extends Controller implements ConversationalCon
     public function confirmationPostAction(Request $request)
     {
         $form = $this->createFormBuilder(null, array('action' => $this->generateUrl('test_user_registration_confirmation_post'), 'method' => 'POST'))
-            ->add('next', 'submit')
-            ->add('prev', 'submit')
+            ->add('next', SubmitType::class)
+            ->add('prev', SubmitType::class)
             ->getForm();
         $form->handleRequest($request);
 

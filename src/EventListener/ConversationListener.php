@@ -48,10 +48,6 @@ class ConversationListener implements ConversationContextAwareInterface
      */
     private $reflectionConversationalControllerRepository;
 
-    /**
-     * @var SecureRandomInterface
-     */
-    private $secureRandom;
 
     /**
      * @var EndableConversationSpecification
@@ -64,15 +60,13 @@ class ConversationListener implements ConversationContextAwareInterface
      * @param ConversationRepository                       $conversationRepository
      * @param PageflowRepository                           $pageflowRepository
      * @param ReflectionConversationalControllerRepository $reflectionConversationalControllerRepository
-     * @param SecureRandomInterface                        $secureRandom
      * @param EndableConversationSpecification             $endableConversationSpecification
      */
-    public function __construct(ConversationRepository $conversationRepository, PageflowRepository $pageflowRepository, ReflectionConversationalControllerRepository $reflectionConversationalControllerRepository, SecureRandomInterface $secureRandom, EndableConversationSpecification $endableConversationSpecification)
+    public function __construct(ConversationRepository $conversationRepository, PageflowRepository $pageflowRepository, ReflectionConversationalControllerRepository $reflectionConversationalControllerRepository, EndableConversationSpecification $endableConversationSpecification)
     {
         $this->conversationRepository = $conversationRepository;
         $this->pageflowRepository = $pageflowRepository;
         $this->reflectionConversationalControllerRepository = $reflectionConversationalControllerRepository;
-        $this->secureRandom = $secureRandom;
         $this->endableConversationSpecification = $endableConversationSpecification;
     }
 
@@ -252,6 +246,6 @@ class ConversationListener implements ConversationContextAwareInterface
      */
     private function generateConversationId()
     {
-        return sha1($this->secureRandom->nextBytes(24));
+        return sha1(random_bytes(24));
     }
 }
